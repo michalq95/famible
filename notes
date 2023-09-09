@@ -1,0 +1,6 @@
+php artisan make:controller OfferController --model=Offer --api --requests
+php artisan make:model Invitation -m
+php artisan db:seed --class=DatabaseSeeder
+php artisan test --env=testing
+php artisan queue:work
+php artisan websockets:serve
