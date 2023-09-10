@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
-class InvitationResource extends JsonResource
+class AccessResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,8 @@ class InvitationResource extends JsonResource
         return [
             'id' => $this->id,
             'room' => new RoomResource($this->room),
-            'status'=> $this->status
+            'status'=> $this->status,
+            'role'=>$this->role
 
         ];
     }

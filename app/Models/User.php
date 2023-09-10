@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Console\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,9 +40,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Access::class);
     }
-    // public function invitations()
-    // {
-    //     return $this->hasMany(Invitation::class);   
-    //  }
+    public function rooms(){
+        return $this->belongsToMany(Room::class,Access::class)->withPivot(["role","status"]);
+    }
 
 }

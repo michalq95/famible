@@ -23,7 +23,8 @@ class UserResource extends JsonResource
                 return [
                     'id' => $room->id,
                     'name' => $room->name,
-                    'role' => $room->pivot->role, // Include the access role from the pivot table
+                    'role' => $room->pivot->role, 
+                    'status'=>$room->pivot->status
                 ];
             }),
 

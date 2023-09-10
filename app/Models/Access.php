@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\InvitationStatusEnum;
-use App\Enums\UserRoomEnum;
+use App\Enums\AccessStatusEnum;
+use App\Enums\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +13,8 @@ class Access extends Model
 
     protected $fillable = ['role','room_id','user_id','status'];
     protected $casts = [
-        'role' => UserRoomEnum::class,
-        'status'=>InvitationStatusEnum::class
+        'role' => UserStatusEnum::class,
+        'status'=>AccessStatusEnum::class
     ];
     public function user()
     {

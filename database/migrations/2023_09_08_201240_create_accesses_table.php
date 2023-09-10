@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\InvitationStatusEnum;
-use App\Enums\UserRoomEnum;
+use App\Enums\AccessStatusEnum;
+use App\Enums\UserStatusEnum;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Room::class,"room_id")->onDelete("cascade");
             $table->foreignIdFor(User::class,"user_id")->onDelete("cascade");
             $table->integer("role")->default(2);
-            $table->integer("status")->default(InvitationStatusEnum::Pending);
+            $table->integer("status")->default(AccessStatusEnum::Pending);
             $table->timestamps();
         });
     }

@@ -22,13 +22,6 @@ class Room extends Model
     {
         return $this->hasMany(Access::class);   
      }
-    public function invitations()
-    {
-        return $this->hasMany(Invitation::class);   
-     }
 
-    // public function users()
-    // {
-    //     return $this->belongsToMany(User::class);
-    // }
+
 }

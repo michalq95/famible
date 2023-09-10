@@ -19,6 +19,7 @@ class RoomResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            "status"=>$this->pivot->status,
             'users'=>$this->accesses
             // 'users' => $this->access->map(function ($access) {
             //     return [

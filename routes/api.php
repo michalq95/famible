@@ -24,6 +24,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::resource("/access",AccessController::class);
     Route::resource("/room", RoomController::class);
+    Route::get("/user/room",[RoomController::class, "personal_index"]);
+    Route::get("/user/pending",[RoomController::class, "personal_to_accept"]);
 });
 
 

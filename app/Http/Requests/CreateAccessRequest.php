@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\InvitationStatusEnum;
-use App\Enums\UserRoomEnum;
+use App\Enums\AccessStatusEnum;
+use App\Enums\UserStatusEnum;
 use App\Models\Room;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
 
 class CreateAccessRequest extends FormRequest
 {
     public function authorize()
     {
-        $room = Room::findOrFail($this->room_id);
-        $access = $room->accesses()->where('user_id', Auth::user()->id)->first();
-        return ($access && $access->role==UserRoomEnum::Owner);
+        //doing it in controller
+        return true;
     }
 
     public function rules()
@@ -22,7 +22,7 @@ class CreateAccessRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'room_id' => 'required|exists:rooms,id',
-            'status'=> 'required'
+            'role'=> ["required",new Enum(ServerStatus::class)]
         ];
     }
 }

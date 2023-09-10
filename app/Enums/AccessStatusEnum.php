@@ -1,7 +1,7 @@
 <?php
 namespace App\Enums;
 
-enum InvitationStatusEnum:int {
+enum AccessStatusEnum:int {
 
     case Pending = 0;
     case Accepted = 1;
