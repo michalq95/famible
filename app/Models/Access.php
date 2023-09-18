@@ -6,11 +6,13 @@ use App\Enums\AccessStatusEnum;
 use App\Enums\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Access extends Model
+class Access extends Pivot
 {
     use HasFactory;
 
+    protected $table = "accesses";
     protected $fillable = ['role','room_id','user_id','status'];
     protected $casts = [
         'role' => UserStatusEnum::class,

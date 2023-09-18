@@ -19,14 +19,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'rooms' => $this->rooms->map(function ($room) {
-                return [
-                    'id' => $room->id,
-                    'name' => $room->name,
-                    'role' => $room->pivot->role, 
-                    'status'=>$room->pivot->status
-                ];
-            }),
+            "accesses" => AccessResource::collection($this->accepted_accesses)
+
 
         ];
     }

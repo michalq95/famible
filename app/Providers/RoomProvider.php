@@ -18,7 +18,7 @@ class RoomProvider extends ServiceProvider{
     {
         Room::created(function ($room) {
             $user = Auth::user(); 
-            Access::create(['role' => 0,'user_id'=>$user->id,'room_id'=>$room->id]);
+            Access::create(['role' => 0,'status'=>1,'user_id'=>$user->id,'room_id'=>$room->id]);
 
         });
     }

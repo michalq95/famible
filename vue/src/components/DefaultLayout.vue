@@ -10,27 +10,19 @@
             </div>
             <div class="flex grow"></div>
 
-            <!-- <div
-                ref="roomDiv"
-                class="overflow-hidden flex bg-slate-600 flex-auto mx-2"
-            >
-                <button
-                    v-for="r in rooms"
-                    class="p-2 ml-1 bg-zinc-500 content-around"
-                >
-                    {{ r }}
-                </button>
-            </div>
-            <div class="flex-none" v-if="roomDiv">
-                {{ roomDiv.clientWidth }}
-            </div> -->
             <div v-if="token" class="relative inline-block text-left items-end">
-                <button
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                <router-link
+                    class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    :to="{ name: 'Dashboard' }"
+                >
+                    Dashboard
+                </router-link>
+                <div
+                    class="inline cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     @click="roomMenuIsOpen = !roomMenuIsOpen"
                 >
                     Dropdown
-                </button>
+                </div>
                 <div
                     v-show="roomMenuIsOpen"
                     class="absolute right-2 z-10 mt-2 w-48 bg-white border rounded-lg shadow-lg"
@@ -40,11 +32,12 @@
                         v-for="r in acceptedAccesses"
                         class="text-gray-800 pt-1 truncate"
                     >
-                        <button
+                        <router-link
                             class="px-2 w-10 py-2 bg-slate-200 border-neutral-700 hover:bg-gray-200"
+                            :to="{ name: 'RoomView', params: { id: r.id } }"
                         >
                             {{ r.room.name.slice(0, 2) }}
-                        </button>
+                        </router-link>
                         {{ r.room.name }}
                     </div>
                 </div>

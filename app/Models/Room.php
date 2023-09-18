@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Room extends Model
 {
@@ -11,7 +12,7 @@ class Room extends Model
 
 
     protected $fillable = [
-        "name","description"
+        "name", "description", "expire_date"
     ];
 
     // public function users()
@@ -20,8 +21,18 @@ class Room extends Model
     // }
     public function accesses()
     {
-        return $this->hasMany(Access::class);   
-     }
-
-
+        return $this->hasMany(Access::class);
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'accesses')->withPivot(["role", "status"])->using(Access::class);
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class); //->with('user');
+    }
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

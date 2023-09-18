@@ -4,11 +4,10 @@ import axiosClient from "../axios";
 const store = createStore({
     state: {
         user: {
-            data: JSON.parse(sessionStorage.getItem("USER")) || {
-                name: "Mihau",
-            },
+            data: JSON.parse(sessionStorage.getItem("USER")) || {},
             token: sessionStorage.getItem("TOKEN"),
         },
+        currentRoom: { loading: false, data: [] },
     },
     getters: {
         isMod(state) {
@@ -35,6 +34,20 @@ const store = createStore({
                 return data;
             });
         },
+        getRoom({ commit }, id) {
+            commit("setCurrentRoomLoading", true);
+            return axiosClient
+                .get(`/room/${id}`)
+                .then((res) => {
+                    commit("setCurrentRoom", res.data);
+                    commit("setCurrentRoomLoading", false);
+                    return res;
+                })
+                .catch((err) => {
+                    commit("setCurrentRoomLoading", false);
+                    throw err;
+                });
+        },
     },
     mutations: {
         setError: (state, value) => {
@@ -53,6 +66,12 @@ const store = createStore({
             sessionStorage.setItem("USER", JSON.stringify(userData.user));
 
             sessionStorage.setItem("TOKEN", userData.token);
+        },
+        setCurrentRoomLoading(state, status) {
+            state.currentRoom.loading = status;
+        },
+        setCurrentRoom(state, data) {
+            state.currentRoom.data = data.data;
         },
     },
     modules: {},

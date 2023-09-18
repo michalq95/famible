@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoomController;
+use App\Http\Middleware\RoomAccessMiddleware;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,17 +21,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout',   [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return new UserResource($request->user());
     });
-    Route::resource("/access",AccessController::class);
-    Route::resource("/room", RoomController::class);
-    Route::get("/user/room",[RoomController::class, "personal_index"]);
-    Route::get("/user/pending",[RoomController::class, "personal_to_accept"]);
+    Route::middleware(['admin.access'])->group(function () {
+        Route::resource("/room", RoomController::class)->only(["update", "destroy"]);
+        Route::post("/access", [AccessController::class, 'store']);
+    });
+    Route::put("/access", [AccessController::class, 'update']);
+    Route::resource("/room", RoomController::class)->only(["show", "index"])->middleware(RoomAccessMiddleware::class);
+    // Route::post("/room", [RoomController::class,"store"]);
+
+    Route::post("/room", [RoomController::class, "store"]);
+    Route::resource("/post", PostController::class);
+    Route::get("/user/room", [RoomController::class, "personal_index"]);
+    Route::get("/user/pending", [RoomController::class, "personal_to_accept"]);
 });
 
 
 
 Route::post("/register", [AuthController::class, 'register']);
 Route::post("/login", [AuthController::class, 'login']);
-Route::post("/logout", [AuthController::class, 'logout']);

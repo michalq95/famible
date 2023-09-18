@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
-class CreateAccessRequest extends FormRequest
+class UpdateAccessRequest extends FormRequest
 {
     public function authorize()
     {
@@ -21,8 +21,10 @@ class CreateAccessRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'role'=> [new Enum(AccessStatusEnum::class)]
+            // 'room_id' => 'required|exists:rooms,id',
+            'status'=> [new Enum(AccessStatusEnum::class)],
+            'role'=> [new Enum(UserStatusEnum::class)]
+
         ];
     }
 }

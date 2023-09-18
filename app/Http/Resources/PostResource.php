@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
-class AccessResource extends JsonResource
+class PostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,12 @@ class AccessResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'room' =>  $this->room,
-            'status' => $this->status,
-            'role' => $this->role
-
+            'title' => $this->title,
+            'description' => $this->description,
+            "status" => $this->status,
+            "added_by" => new OtherUserResource($this->author),
+            "user_handling" => new OtherUserResource($this->handler),
+            "room_id" => $this->room_id,
         ];
     }
 }

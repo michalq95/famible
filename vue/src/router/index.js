@@ -2,8 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import AuthLayout from "../components/AuthLayout.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Room from "../views/Room.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Home from "../views/Home.vue";
+import NotFound from "../views/NotFound.vue";
 import store from "../store";
 
 const routes = [
@@ -31,6 +33,13 @@ const routes = [
         component: Dashboard,
         meta: { requiresAuth: true },
     },
+    {
+        path: "/rooms/:id",
+        name: "RoomView",
+        component: Room,
+    },
+    { path: "/404", name: "NotFound", component: NotFound },
+    { path: "/:pathMatch(.*)*", redirect: { name: "NotFound" } },
 ];
 
 const router = createRouter({
