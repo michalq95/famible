@@ -1,19 +1,36 @@
 <template>
     <PageComponent v-slot:header :title="model.name"> </PageComponent>
-
-    <div v-if="roomLoading" class="flex justify-center">Loading...</div>
-    <div
-        v-for="post in model.posts"
-        :key="post.id"
-        class="flex justify-between items-center py-3 px-5 shadow-md dark:bg-sky-900 dark:hover:bg-sky-700 h-[80px]"
+    <button
+        class="p-2 flex items-center justify-center bg-blue-500 rounded-2xl"
+        @click="showNewPost = !showNewPost"
     >
-        <h3>
-            {{ post.title }}
-        </h3>
-        <h5>{{ post.description }}</h5>
-        {{ post.status }}
-        {{ post.added_by.name }}
-        {{ post.user_handling?.name }}
+        Add new post!
+    </button>
+    <NewPostComponent
+        v-if="showNewPost"
+        @close="showNewPost = false"
+    ></NewPostComponent>
+    <div v-if="roomLoading" class="flex justify-center">Loading...</div>
+    {{ model.users }}
+    <div class="flex flex-wrap">
+        <div
+            v-for="user in model.users"
+            :key="user.id"
+            class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-2xl m-2"
+        >
+            <img
+                v-if="user.image"
+                :src="user.image"
+                :alt="user.name.slice(0, 2)"
+                class="rounded-full text-white text-lg font-semibold"
+            />
+            <span v-else class="text-white text-lg font-semibold"
+                >{{ user.name.slice(0, 2) }}
+            </span>
+        </div>
+    </div>
+    <div v-for="post in model.posts" :key="post.id">
+        <PostComponent :post="post"></PostComponent>
     </div>
 </template>
 
@@ -24,17 +41,20 @@ import axiosClient from "../axios";
 
 import store from "../store";
 import PageComponent from "../components/PageComponent.vue";
+import PostComponent from "../components/PostComponent.vue";
+import NewPostComponent from "../components/NewPostComponent.vue";
 
 const route = useRoute();
 const model = ref({ posts: [], users: [], name: "", description: "" });
+const showNewPost = ref(false);
 const roomLoading = computed(() => store.state.currentRoom.loading);
 
 watch(
     () => store.state.currentRoom.data,
     (newVal, oldVal) => {
-        axiosClient.get(`room/${newVal.id}`).then((res) => {
-            model.value = { ...res.data.data };
-        });
+        // axiosClient.get(`room/${newVal.id}`).then((res) => {
+        //     model.value = { ...res.data.data };
+        // });
         model.value = {
             // ...JSON.parse(JSON.stringify(newVal)),
             ...newVal,

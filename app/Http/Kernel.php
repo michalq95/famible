@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'room.access' => \App\Http\Middleware\RoomAccessMiddleware::class,
         'admin.access' => \App\Http\Middleware\AdminAccessMiddleware::class,
+        'room.membership' => \App\Http\Middleware\CheckRoomMembership::class,
     ];
 }

@@ -30,14 +30,19 @@
                     <!-- Dropdown content goes here -->
                     <div
                         v-for="r in acceptedAccesses"
-                        class="text-gray-800 pt-1 truncate"
+                        class="text-gray-800 pt-1 m-1 truncate"
                     >
-                        <router-link
-                            class="px-2 w-10 py-2 bg-slate-200 border-neutral-700 hover:bg-gray-200"
-                            :to="{ name: 'RoomView', params: { id: r.id } }"
+                        <button
+                            class="p-2 w-10 bg-slate-200 border-neutral-700 hover:bg-gray-200"
+                            @click="
+                                $router.push({
+                                    name: 'RoomView',
+                                    params: { id: r.room.id },
+                                })
+                            "
                         >
                             {{ r.room.name.slice(0, 2) }}
-                        </router-link>
+                        </button>
                         {{ r.room.name }}
                     </div>
                 </div>
@@ -149,7 +154,7 @@
         </Transition>
 
         <div v-if="$store.state.error">404 not found</div>
-        <router-view v-else></router-view>
+        <router-view :key="$route.fullPath" v-else></router-view>
     </div>
 </template>
 

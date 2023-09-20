@@ -15,7 +15,7 @@ class Post extends Model
 
 
 
-    protected $fillable = ['title', 'description', 'status', 'room_id', 'added_by'];
+    protected $fillable = ['title', 'description', 'status', 'room_id', 'added_by', 'user_handling'];
     protected $dates = ['expire_date', 'created_at', 'updated_at'];
     protected $casts = [
         'status' => PostStatusEnum::class

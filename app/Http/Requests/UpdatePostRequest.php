@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -11,7 +12,8 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+
+        return true;
     }
 
     /**
@@ -21,8 +23,14 @@ class UpdatePostRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this);
         return [
-            //
+            'title' => 'required|string|max:255',
+            // 'status' => [new Enum(PostStatusEnum::class), "nullable"],
+            'status' => 'in:0,1,2,3|nullable',
+            'expire_date' => 'nullable|date',
+            'description' => 'nullable|string',
+            'user_handling' => 'exists:users,id',
         ];
     }
 }

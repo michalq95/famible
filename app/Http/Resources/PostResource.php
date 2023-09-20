@@ -21,7 +21,8 @@ class PostResource extends JsonResource
             'description' => $this->description,
             "status" => $this->status,
             "added_by" => new OtherUserResource($this->author),
-            "user_handling" => new OtherUserResource($this->handler),
+            // "user_handling" => new OtherUserResource($this->handler),
+            "user_handling" => $this->user_handling,
             "room_id" => $this->room_id,
         ];
     }

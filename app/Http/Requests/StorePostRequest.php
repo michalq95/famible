@@ -24,14 +24,17 @@ class StorePostRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'title' => 'required|string|max:255',
-            'status' => [new Enum(PostStatusEnum::class),"nullable"],
+            // 'status' => [new Enum(PostStatusEnum::class), "nullable"],
+            'status' => 'in:0,1,2,3|nullable',
+
             'expire_date' => 'nullable|date',
             'description' => 'nullable|string',
-            'room_id'=>'required|exists:rooms,id',
+            // 'room_id'=>'required|exists:rooms,id',
             // 'added_by'=>'required|exists:users,id',
-            'user_handling'=>'exists:users,id',
+            'user_handling' => 'exists:users,id',
         ];
     }
 }

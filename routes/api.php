@@ -4,6 +4,7 @@ use App\Http\Controllers\AccessController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoomController;
+use App\Http\Middleware\CheckRoomMembership;
 use App\Http\Middleware\RoomAccessMiddleware;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post("/room", [RoomController::class,"store"]);
 
     Route::post("/room", [RoomController::class, "store"]);
-    Route::resource("/post", PostController::class);
+    Route::resource("room.post", PostController::class)->middleware(CheckRoomMembership::class);
     Route::get("/user/room", [RoomController::class, "personal_index"]);
     Route::get("/user/pending", [RoomController::class, "personal_to_accept"]);
 });

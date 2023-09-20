@@ -39,7 +39,7 @@ const store = createStore({
             return axiosClient
                 .get(`/room/${id}`)
                 .then((res) => {
-                    commit("setCurrentRoom", res.data);
+                    commit("setCurrentRoom", res.data.data);
                     commit("setCurrentRoomLoading", false);
                     return res;
                 })
@@ -47,6 +47,49 @@ const store = createStore({
                     commit("setCurrentRoomLoading", false);
                     throw err;
                 });
+        },
+        savePost({ commit, state }, post) {
+            let response;
+            // console.log(state.currentRoom);
+            if (post.id) {
+                response = axiosClient
+                    .put(
+                        `/room/${state.currentRoom.data.id}/post/${post.id}`,
+                        post
+                    )
+                    .then((res) => {
+                        let room = state.currentRoom.data;
+                        // let room = JSON.parse(
+                        //     JSON.stringify(state.currentRoom.data)
+                        // );
+
+                        const existingObjIndex = room.posts.findIndex(
+                            (obj) => obj.id === res.data.data.id
+                        );
+
+                        if (existingObjIndex !== -1) {
+                            room.posts[existingObjIndex] = res.data.data;
+                            commit("setCurrentRoom", room);
+                        }
+
+                        return res.data.data;
+                    });
+            } else {
+                response = axiosClient
+                    .post(`/room/${state.currentRoom.data.id}/post`, post)
+                    .then((res) => {
+                        let room = state.currentRoom.data;
+                        room.posts.push(res.data.data);
+                        commit("setCurrentRoom", room);
+                        // let room = JSON.parse(
+                        //     JSON.stringify(state.currentRoom.data)
+                        // );
+
+                        return res.data.data;
+                    });
+            }
+
+            return response;
         },
     },
     mutations: {
@@ -71,7 +114,7 @@ const store = createStore({
             state.currentRoom.loading = status;
         },
         setCurrentRoom(state, data) {
-            state.currentRoom.data = data.data;
+            state.currentRoom.data = data;
         },
     },
     modules: {},
