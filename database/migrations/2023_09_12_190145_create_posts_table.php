@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PostStatusEnum;
+use App\Models\Image;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -20,8 +21,8 @@ return new class extends Migration
             $table->string("title", 255);
             $table->text("description")->nullable();
             $table->timestamp('expire_date')->nullable();
-            $table->integer("status")->default(PostStatusEnum::Pending);
-            $table->foreignIdFor(Image::class, "image_id")->onDelete("cascade");
+            $table->integer("status")->default(0);
+            $table->foreignIdFor(Image::class, "image_id")->onDelete("cascade")->nullable();
             $table->foreignIdFor(Room::class, "room_id");
             $table->foreignIdFor(User::class, "added_by");
             $table->foreignIdFor(User::class, "user_handling")->nullable();

@@ -43,10 +43,15 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        $data = $request->validated();
-        $room = Room::create($data);
 
-        return new RoomResource($room);
+        $data = $request->validated();
+        // dd($request->hasFile('image'));
+        $room = Room::create($data);
+        if ($room && $request->hasFile('image')) {
+            $image = $room->addImage($request->file('image'));
+            // $room->image()->sync($image->id);
+        }
+        return AccessResource::collection(Auth::user()->accepted_accesses);
     }
 
     /**

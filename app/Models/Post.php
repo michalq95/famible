@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PostStatusEnum;
+use App\Traits\HasImages;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasImages;
 
 
 

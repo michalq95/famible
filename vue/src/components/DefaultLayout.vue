@@ -17,6 +17,12 @@
                 >
                     Dashboard
                 </router-link>
+                <router-link
+                    class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    :to="{ name: 'CreateRoom' }"
+                >
+                    Create Room
+                </router-link>
                 <div
                     class="inline cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     @click="roomMenuIsOpen = !roomMenuIsOpen"
@@ -27,7 +33,6 @@
                     v-show="roomMenuIsOpen"
                     class="absolute right-2 z-10 mt-2 w-48 bg-white border rounded-lg shadow-lg"
                 >
-                    <!-- Dropdown content goes here -->
                     <div
                         v-for="r in acceptedAccesses"
                         class="text-gray-800 pt-1 m-1 truncate"
@@ -41,9 +46,18 @@
                                 })
                             "
                         >
-                            {{ r.room.name.slice(0, 2) }}
+                            {{
+                                r.room.shorthand
+                                    ? r.room.shorthand
+                                    : r.room.name.slice(0, 2)
+                            }}
                         </button>
                         {{ r.room.name }}
+                        <img
+                            :src="r.room.image"
+                            alt=""
+                            class="rounded-full text-white text-lg font-semibold"
+                        />
                     </div>
                 </div>
             </div>

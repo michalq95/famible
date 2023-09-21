@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("name", 255);
             $table->text("description")->nullable(true);
             $table->string("shorthand", 2)->nullable(true);
-            $table->foreignIdFor(Image::class, "image_id")->onDelete("cascade");
+            $table->foreignIdFor(Image::class, "image_id")->onDelete("cascade")->nullable();
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@ return new class extends Migration
     {
         Schema::create('accesses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Room::class,"room_id")->onDelete("cascade");
-            $table->foreignIdFor(User::class,"user_id")->onDelete("cascade");
+            $table->foreignIdFor(Room::class, "room_id")->onDelete("cascade");
+            $table->foreignIdFor(User::class, "user_id")->onDelete("cascade");
             $table->integer("role")->default(2);
-            $table->integer("status")->default(AccessStatusEnum::Pending);
+            $table->integer("status")->default(0);
             $table->timestamps();
         });
     }

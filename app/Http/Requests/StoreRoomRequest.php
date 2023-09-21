@@ -32,6 +32,9 @@ class StoreRoomRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'shorthand' => 'string|max:2',
+            'image' => 'mimes:jpeg,png,jpg,gif'
+
         ];
     }
 }

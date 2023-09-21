@@ -6,11 +6,13 @@
     >
         Add new post!
     </button>
-    <NewPostComponent
-        v-if="showNewPost"
-        @close="showNewPost = false"
-    ></NewPostComponent>
+    <NewPost v-if="showNewPost" @close="showNewPost = false"></NewPost>
     <div v-if="roomLoading" class="flex justify-center">Loading...</div>
+    <img
+        :src="model.image"
+        alt=""
+        class="rounded-sm text-white text-lg font-semibold"
+    />
     {{ model.users }}
     <div class="flex flex-wrap">
         <div
@@ -42,10 +44,16 @@ import axiosClient from "../axios";
 import store from "../store";
 import PageComponent from "../components/PageComponent.vue";
 import PostComponent from "../components/PostComponent.vue";
-import NewPostComponent from "../components/NewPostComponent.vue";
+import NewPost from "../components/NewPost.vue";
 
 const route = useRoute();
-const model = ref({ posts: [], users: [], name: "", description: "" });
+const model = ref({
+    posts: [],
+    users: [],
+    name: "",
+    description: "",
+    image: null,
+});
 const showNewPost = ref(false);
 const roomLoading = computed(() => store.state.currentRoom.loading);
 

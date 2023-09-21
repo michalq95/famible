@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
+    protected $fillable = ['url', 'imageable_id', 'imageable_type'];
     use HasFactory;
 
     public function imageable(): MorphTo

@@ -20,7 +20,8 @@ class RoomResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'users' => UserFromRoomResource::collection($this->users),
-            'posts' => PostResource::collection($this->posts)
+            'posts' => PostResource::collection($this->posts),
+            'image' => $this->image ? URL::to($this->image->url) : null
         ];
     }
 }

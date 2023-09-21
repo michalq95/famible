@@ -6,6 +6,7 @@ import Room from "../views/Room.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound.vue";
+import NewRoom from "../views/NewRoom.vue";
 import store from "../store";
 
 const routes = [
@@ -31,6 +32,12 @@ const routes = [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/createroom",
+        name: "CreateRoom",
+        component: NewRoom,
         meta: { requiresAuth: true },
     },
     {

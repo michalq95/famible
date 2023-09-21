@@ -50,7 +50,6 @@ const store = createStore({
         },
         savePost({ commit, state }, post) {
             let response;
-            // console.log(state.currentRoom);
             if (post.id) {
                 response = axiosClient
                     .put(
@@ -59,10 +58,6 @@ const store = createStore({
                     )
                     .then((res) => {
                         let room = state.currentRoom.data;
-                        // let room = JSON.parse(
-                        //     JSON.stringify(state.currentRoom.data)
-                        // );
-
                         const existingObjIndex = room.posts.findIndex(
                             (obj) => obj.id === res.data.data.id
                         );
@@ -81,14 +76,21 @@ const store = createStore({
                         let room = state.currentRoom.data;
                         room.posts.push(res.data.data);
                         commit("setCurrentRoom", room);
-                        // let room = JSON.parse(
-                        //     JSON.stringify(state.currentRoom.data)
-                        // );
-
                         return res.data.data;
                     });
             }
+            return response;
+        },
+        saveRoom({ commit, state }, room) {
+            console.log(room);
+            let response = axiosClient.post(`/room`, room).then((res) => {
+                // let accesses = state.user.data.accesses;
 
+                // accesses.push(res.data.data);
+                commit("setAccesses", res.data.data);
+                // commit("setCurrentApplication", res.data.data);
+                return res.data;
+            });
             return response;
         },
     },
@@ -115,6 +117,9 @@ const store = createStore({
         },
         setCurrentRoom(state, data) {
             state.currentRoom.data = data;
+        },
+        setAccesses(state, data) {
+            state.user.data.accesses = data;
         },
     },
     modules: {},

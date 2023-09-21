@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Room extends Model
 {
-    use HasFactory;
+    use HasFactory, HasImages;
 
 
     protected $fillable = [
-        "name", "description", "expire_date"
+        "name", "description", "expire_date", 'shorthand'
     ];
 
     // public function users()
