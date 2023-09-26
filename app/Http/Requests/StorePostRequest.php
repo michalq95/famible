@@ -32,8 +32,8 @@ class StorePostRequest extends FormRequest
 
             'expire_date' => 'nullable|date',
             'description' => 'nullable|string',
-            // 'room_id'=>'required|exists:rooms,id',
-            // 'added_by'=>'required|exists:users,id',
+
+            'image' => 'mimes:jpeg,png,jpg,gif,dimensions:max_width=200,max_height=300,size:2000',
             'user_handling' => 'exists:users,id',
         ];
     }

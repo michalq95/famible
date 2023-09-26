@@ -48,13 +48,14 @@ const store = createStore({
                     throw err;
                 });
         },
-        savePost({ commit, state }, post) {
+        savePost({ commit, state }, { formData, id }) {
+            console.log(formData);
             let response;
-            if (post.id) {
+            if (id) {
                 response = axiosClient
-                    .put(
-                        `/room/${state.currentRoom.data.id}/post/${post.id}`,
-                        post
+                    .post(
+                        `/room/${state.currentRoom.data.id}/post/${id}`,
+                        formData
                     )
                     .then((res) => {
                         let room = state.currentRoom.data;
@@ -71,7 +72,7 @@ const store = createStore({
                     });
             } else {
                 response = axiosClient
-                    .post(`/room/${state.currentRoom.data.id}/post`, post)
+                    .post(`/room/${state.currentRoom.data.id}/post`, formData)
                     .then((res) => {
                         let room = state.currentRoom.data;
                         room.posts.push(res.data.data);
@@ -84,11 +85,7 @@ const store = createStore({
         saveRoom({ commit, state }, room) {
             console.log(room);
             let response = axiosClient.post(`/room`, room).then((res) => {
-                // let accesses = state.user.data.accesses;
-
-                // accesses.push(res.data.data);
                 commit("setAccesses", res.data.data);
-                // commit("setCurrentApplication", res.data.data);
                 return res.data;
             });
             return response;

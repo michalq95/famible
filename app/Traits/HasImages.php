@@ -15,7 +15,6 @@ trait HasImages
     {
         $imageName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
         $path = $imageFile->storeAs('images', $imageName, 'public');
-        // $imagePath = public_path('images') . '/' . $imageName;
         $imageFile->move(public_path('images'), $imageName);
 
         $image = new Image(['url' => $path]);

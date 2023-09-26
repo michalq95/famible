@@ -7,12 +7,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-500">Image</label>
             <div class="mt1 flex items-center">
-                <img
-                    v-if="model.image_url"
-                    :src="model.image_url"
-                    :alt="model.name"
-                    class="w-64 object-cover"
-                />
+                <img v-if="image" :src="image" class="w-64 object-cover" />
                 <span
                     v-else
                     class="flex items-center justify-center w-64 object-cover rounded-full overflow-hidden bg-gray-100"
@@ -104,9 +99,11 @@ const model = ref({
     image: null,
 });
 
+const image = ref(null);
+
 function onImageChoose(ev) {
     model.value.image = ev.target.files[0];
-    console.log(model.value.image);
+    image.value = URL.createObjectURL(ev.target.files[0]);
 }
 
 function saveRoom() {

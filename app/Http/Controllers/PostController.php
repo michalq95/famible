@@ -7,8 +7,10 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Room;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -27,17 +29,16 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //    $room = Room::where("id",$request->room_id);
+        // if (!($request->user_handling && $room->users()->where('user_id', $request->user_handling)->exists()))
+        //     return new JsonResponse("Unauthorized", 403);
 
-        //    $a = Auth::User()->rooms()->wherePivot('role', '<', 3)->wherePivot('status', 1)->find($request->room_id);
-
-        //    if(!$a){
-        //     return new JsonResponse("You are not a member of this room", 403);
-        //    }
         $data = $request->validated();
         $data["room_id"] = $request->route('room');
         $data["added_by"] = Auth::user()->id;
         $result = Post::create($data);
+        if ($result && $request->hasFile('image')) {
+            $image = $result->addImage($request->file('image'));
+        }
 
         return new PostResource($result);
     }
@@ -55,9 +56,19 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Room $room, Post $post)
     {
-        // dd($request);
+
 
         $data = $request->validated();
+        // dd($request->user_handling && $room->users()->where('user_id', $request->user_handling)->exists());
+
+        if ($request->hasFile('image')) {
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image->url);
+
+                $post->image->delete();
+            }
+            $image = $post->addImage($request->file('image'));
+        }
         $post->update($data);
         return new PostResource($post);
     }

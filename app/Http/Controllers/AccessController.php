@@ -17,7 +17,7 @@ class AccessController extends Controller
 {
     public function store(CreateAccessRequest $request)
     {
-               
+
         $accesses = $request->get('accesses');
         $adder_access = $request->get('user_access');
         if (!($adder_access && ($adder_access->role == UserStatusEnum::SuperAdmin or $adder_access->role == UserStatusEnum::Admin))) {
@@ -40,18 +40,19 @@ class AccessController extends Controller
 
     public function update(UpdateAccessRequest $request, Access $access)
     {
+
         $userId = Auth::user()->id;
         $admin = Access::whereHas('room.accesses', function ($query) use ($userId) {
             $query->where('user_id', $userId)->whereIn('role', [0, 1]);
         })->first();
         $normalUser = $userId == $access->user_id;
 
-        if (!($normalUser or $admin)){
+        if (!($normalUser or $admin)) {
             return new JsonResponse("Unauthorized", 403);
         }
 
         $role = $access->role;
-        
+
         $status = $access->status;
         if ($admin) {
             if ($request->role && $admin->role == UserStatusEnum::SuperAdmin) {
@@ -70,15 +71,15 @@ class AccessController extends Controller
                     $role = $request->role;
                 }
             }
-            if ($request->status && $request->status==3) $status=3;
+            if ($request->status && $request->status == 3) $status = 3;
         }
-        
+
         if ($normalUser) {
-            if ($request->status && $request->status!==0){
+            if ($request->status && $request->status !== 0) {
                 $status = $request->status;
             }
         }
-        $access->update(["status"=>$status,"role"=>$role]);
+        $access->update(["status" => $status, "role" => $role]);
 
         return $access;
     }

@@ -12,6 +12,7 @@ use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -45,11 +46,9 @@ class RoomController extends Controller
     {
 
         $data = $request->validated();
-        // dd($request->hasFile('image'));
         $room = Room::create($data);
         if ($room && $request->hasFile('image')) {
             $image = $room->addImage($request->file('image'));
-            // $room->image()->sync($image->id);
         }
         return AccessResource::collection(Auth::user()->accepted_accesses);
     }
@@ -67,8 +66,16 @@ class RoomController extends Controller
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
-        // Auth::user()->rooms()->wherePivot("role", UserStatusEnum::SuperAdmin)->first();
-        $room->update($request->validated());
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            if ($room->image) {
+                Storage::disk('public')->delete($room->image->url);
+
+                $room->image->delete();
+            }
+            $image = $room->addImage($request->file('image'));
+        }
+        $room->update($data);
         return new RoomResource($room);
     }
 

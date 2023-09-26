@@ -25,7 +25,7 @@ class UpdatePostRequest extends FormRequest
     {
         // dd($this);
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'string|max:255',
             // 'status' => [new Enum(PostStatusEnum::class), "nullable"],
             'status' => 'in:0,1,2,3|nullable',
             'expire_date' => 'nullable|date',

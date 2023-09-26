@@ -2,20 +2,44 @@
     <div
         class="flex justify-between items-center py-3 px-5 shadow-md dark:bg-sky-900 dark:hover:bg-sky-700 h-[80px]"
     >
+        <label class="flex h-12 w-12 shrink-0" for="file-input">
+            <img
+                v-if="post.image"
+                :src="post.image"
+                class="rounded-sm h-12 !w-12 min-w-12 object-cover"
+            />
+            <span
+                v-else
+                class="items-center justify-center h-12 w-12 min-w-12 rounded-full bg-gray-100"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-12 w-12 text-gray-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </span>
+        </label>
+        <v-file-input
+            id="file-input"
+            accept="image/*"
+            @change="onImageChoose"
+            style="display: none"
+        />
         <h3>
             {{ post.title }}
         </h3>
+
         <h5>{{ post.description }}</h5>
-        <!-- {{ post.status }}
-        {{ post.added_by.name }}
-        {{ post.user_handling?.name }} -->
-        {{ post }}
-        <!-- {{ users }} -->
-        <!-- <button
-            class="p-2 text-black bg-slate-200 border-neutral-700 hover:bg-gray-200"
-        >
-            I got this!
-        </button> -->
+
+        {{ image }}
+
         <select
             class="p-2 w-36 text-black rounded-md bg-slate-200 border-neutral-700 hover:bg-gray-200"
             name="user_handling"
@@ -47,21 +71,36 @@
 
 <script setup>
 import store from "../store";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 const users = computed(() => store.state.currentRoom.data.users);
 const roomId = computed(() => store.state.currentRoom.id);
-
-// const userHandling = computed();
 
 const props = defineProps({
     post: Object,
 });
 
-// const userCompanyId = computed(() => store.state.user?.data?.company?.id);
+const image = ref(null);
+
+function onImageChoose(ev) {
+    image.value = ev.target.files[0];
+    props.post.image = URL.createObjectURL(ev.target.files[0]);
+}
 
 function apply() {
-    store.dispatch("savePost", props.post);
+    const formData = new FormData();
+    for (const field in props.post) {
+        formData.append(field, props.post[field]);
+    }
+    formData.delete("image");
+    console.log(image.value);
+    if (image.value) formData.append("image", image.value);
+    formData.append("_method", "PUT");
+    store.dispatch("savePost", { formData, id: props.post.id });
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+img {
+    min-width: 100%;
+}
+</style>

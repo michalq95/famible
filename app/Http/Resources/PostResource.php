@@ -24,6 +24,7 @@ class PostResource extends JsonResource
             // "user_handling" => new OtherUserResource($this->handler),
             "user_handling" => $this->user_handling,
             "room_id" => $this->room_id,
+            'image' => $this->image ? URL::to($this->image->url) : null
         ];
     }
 }
