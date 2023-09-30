@@ -21,10 +21,11 @@ class PostResource extends JsonResource
             'description' => $this->description,
             "status" => $this->status,
             "added_by" => new OtherUserResource($this->author),
-            // "user_handling" => new OtherUserResource($this->handler),
             "user_handling" => $this->user_handling,
             "room_id" => $this->room_id,
-            'image' => $this->image ? URL::to($this->image->url) : null
+            'image' => $this->image ? URL::to($this->image->url) : null,
+            'created_at' => $this->created_at->format('y-m-d'),
+            'updated_at' => $this->updated_at->format('y-m-d'),
         ];
     }
 }

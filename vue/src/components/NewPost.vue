@@ -96,8 +96,8 @@ const newPostModel = ref({
     title: "",
     description: "",
     status: 0,
-    user_handling: undefined,
-    image: null,
+    user_handling: "",
+    image: "",
 });
 
 function onImageChoose(ev) {
@@ -115,8 +115,8 @@ function newPost() {
         title: "",
         description: "",
         status: 0,
-        user_handling: undefined,
-        image: null,
+        user_handling: "",
+        image: "",
     };
 
     emit("close");

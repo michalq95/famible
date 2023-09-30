@@ -45,6 +45,7 @@ class AccessController extends Controller
         $admin = Access::whereHas('room.accesses', function ($query) use ($userId) {
             $query->where('user_id', $userId)->whereIn('role', [0, 1]);
         })->first();
+
         $normalUser = $userId == $access->user_id;
 
         if (!($normalUser or $admin)) {
@@ -79,6 +80,7 @@ class AccessController extends Controller
                 $status = $request->status;
             }
         }
+        // dd($status, $role);
         $access->update(["status" => $status, "role" => $role]);
 
         return $access;

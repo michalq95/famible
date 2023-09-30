@@ -20,6 +20,8 @@ class UserFromRoomResource extends JsonResource
             'email' => $this->email,
             'role' => $this->pivot->role,
             'status' => $this->pivot->status,
+            'access_id' => $this->pivot->id,
+
         ];
     }
 }

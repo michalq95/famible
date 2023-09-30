@@ -40,6 +40,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("/user/query", [UsersController::class, 'index']);
     Route::get("/user/room", [RoomController::class, "personal_index"]);
     Route::get("/user/pending", [RoomController::class, "personal_to_accept"]);
+
+    Route::post("/user/markasread", [UsersController::class, 'markAsRead']);
+    Route::post("/user/markallasread", [UsersController::class, 'markAllAsRead']);
 });
 
 

@@ -177,19 +177,9 @@ import { useStore } from "vuex";
 
 import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-const navigation = [
-    { name: "Dashboard", to: { name: "Login" } },
-    { name: "Offers", to: { name: "Login" } },
-    { name: "Companies", to: { name: "Login" } },
-];
 
-// export default {
-//     setup() {
 const menuIsOpen = ref(false);
 const roomMenuIsOpen = ref(false);
-// const rooms = ref(["AA", "AD", "FD", "SD", "BD", "TE", "GD", "SA"]);
-// const roomDiv = ref(null);
 
 const store = useStore();
 const router = useRouter();
@@ -205,34 +195,6 @@ function logout() {
         });
     });
 }
-
-// onMounted(() => {
-//     if (user.value && user.value.accesses) {
-//         store.dispatch("getMyOffers", { id: user.value.company.id });
-//     }
-//     if (user.value && user.value.company) {
-//         getCompanyApplications().then((data) => {
-//             companyApplications.value = data;
-//         });
-//     }
-//     if (user.value) {
-//         store.dispatch("getMyApplications");
-//     }
-// });
-
-// return {
-//     user: computed(() => store.state.user.data),
-//     token: computed(() => store.state.user.token),
-//     navigation,
-//     logout,
-//     isMod,
-//     menuIsOpen,
-//     roomMenuIsOpen,
-//     rooms,
-//     roomDiv,
-// };
-//     },
-// };
 </script>
 
 <style scoped lang="scss"></style>

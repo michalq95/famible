@@ -19,7 +19,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            "accesses" => AccessResource::collection($this->accepted_accesses)
+            "accesses" => AccessResource::collection($this->accepted_accesses),
+            "notifications" => $this->unreadNotifications
 
 
         ];

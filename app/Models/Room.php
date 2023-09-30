@@ -26,11 +26,11 @@ class Room extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class, 'accesses')->withPivot(["role", "status"])->using(Access::class);
+        return $this->belongsToMany(User::class, 'accesses')->withPivot(["role", "status", "id"])->using(Access::class);
     }
     public function posts()
     {
-        return $this->hasMany(Post::class); //->with('user');
+        return $this->hasMany(Post::class)->with("image"); //->with('user');
     }
     public function image(): MorphOne
     {

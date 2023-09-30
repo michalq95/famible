@@ -1,57 +1,64 @@
 <template>
     <PageComponent v-slot:header :title="model.name"> </PageComponent>
-    <button
-        class="p-2 flex items-center justify-center bg-blue-500 rounded-2xl"
-        @click="showNewPost = !showNewPost"
-    >
-        Add new post!
-    </button>
-    <button
-        v-if="isMod"
-        class="p-2 flex items-center justify-center bg-blue-500 rounded-2xl"
-        @click="showUserSearch = !showUserSearch"
-    >
-        Add new members!
-    </button>
-    <NewPost v-if="showNewPost" @close="showNewPost = false"></NewPost>
-    <UserSearch
-        v-if="showUserSearch"
-        @close:search="showUserSearch = false"
-        :roomId="route.params.id"
-    ></UserSearch>
-    {{ showUserDropdown }}
-    <div v-if="roomLoading" class="flex justify-center">Loading...</div>
     <img
         :src="model.image"
         alt=""
         class="rounded-sm text-white text-lg font-semibold"
     />
-    <div class="flex flex-wrap">
-        <div
-            v-for="user in model.users"
-            :key="user.id"
-            class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-2xl m-2"
-        >
-            <div @click="setShowUserDropdown(user.id)">
-                <img
-                    v-if="user.image"
-                    :src="user.image"
-                    :alt="user.name.slice(0, 2)"
-                    class="rounded-full text-white text-lg font-semibold"
-                />
-                <span v-else class="text-white text-lg font-semibold"
-                    >{{ user.name.slice(0, 2) }}
-                </span>
-                <UserDropdown
-                    :user="user"
-                    @close:dropdown="showUserDropdown = -1"
-                    v-if="isMod && showUserDropdown == user.id"
-                ></UserDropdown>
+
+    <div v-if="roomLoading" class="flex justify-center">Loading...</div>
+    <div v-else>
+        <div class="md:w-1/5 md:inline-block md:float-right md:sticky md:top-0">
+            <button
+                class="p-2 my-2 flex items-center justify-center bg-blue-500 rounded-2xl"
+                @click="showNewPost = !showNewPost"
+            >
+                Add new post!
+            </button>
+            <button
+                v-if="isMod"
+                class="p-2 flex items-center justify-center bg-blue-500 rounded-2xl"
+                @click="showUserSearch = !showUserSearch"
+            >
+                Add new members!
+            </button>
+            <NewPost v-if="showNewPost" @close="showNewPost = false"></NewPost>
+            <UserSearch
+                v-if="showUserSearch"
+                @close:search="showUserSearch = false"
+                :roomId="route.params.id"
+            ></UserSearch>
+
+            <div class="flex flex-wrap">
+                <div
+                    v-for="user in model.users"
+                    :key="user.id"
+                    class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-2xl m-2"
+                >
+                    <div @click="setShowUserDropdown(user.id)">
+                        <img
+                            v-if="user.image"
+                            :src="user.image"
+                            :alt="user.name.slice(0, 2)"
+                            class="rounded-full text-white text-lg font-semibold"
+                        />
+                        <span v-else class="text-white text-lg font-semibold"
+                            >{{ user.name.slice(0, 2) }}
+                        </span>
+                        <UserDropdown
+                            :user="user"
+                            @close:dropdown="showUserDropdown = -1"
+                            v-if="isMod && showUserDropdown == user.id"
+                        ></UserDropdown>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div v-for="post in model.posts" :key="post.id">
-        <PostComponent :post="post"></PostComponent>
+        <div class="md:w-4/5 md:inline-block pr-3">
+            <div v-for="post in model.posts" :key="post.id">
+                <PostComponent :post="post"></PostComponent>
+            </div>
+        </div>
     </div>
 </template>
 

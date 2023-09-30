@@ -30,7 +30,7 @@ class UpdatePostRequest extends FormRequest
             'status' => 'in:0,1,2,3|nullable',
             'expire_date' => 'nullable|date',
             'description' => 'nullable|string',
-            'user_handling' => 'exists:users,id',
+            'user_handling' => 'nullable|exists:users,id',
         ];
     }
 }

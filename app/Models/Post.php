@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PostStatusEnum;
+use App\Notifications\NewPostNotification;
 use App\Traits\HasImages;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,10 @@ class Post extends Model
 
     protected static function booted()
     {
+        static::created((function (Post $post) {
+            $post->notifyRoomMembers();
+        }));
+
         static::updated(function (Post $post) {
             if ($post->status == PostStatusEnum::Done)
                 $post->expire_date = Carbon::now()->addMonth();
@@ -51,5 +56,15 @@ class Post extends Model
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+    public function notifyRoomMembers()
+    {
+        $room = $this->room;
+
+        $users = $room->users;
+
+        foreach ($users as $user) {
+            $user->notify(new NewPostNotification($this));
+        }
     }
 }

@@ -33,8 +33,8 @@ class StorePostRequest extends FormRequest
             'expire_date' => 'nullable|date',
             'description' => 'nullable|string',
 
-            'image' => 'mimes:jpeg,png,jpg,gif,dimensions:max_width=200,max_height=300,size:2000',
-            'user_handling' => 'exists:users,id',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,dimensions:max_width=200,max_height=300,size:2000',
+            'user_handling' => 'nullable|exists:users,id',
         ];
     }
 }

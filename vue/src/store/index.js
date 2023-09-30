@@ -8,10 +8,19 @@ const store = createStore({
             token: sessionStorage.getItem("TOKEN"),
         },
         currentRoom: { loading: false, data: [] },
+        commonTaskStatuses: [
+            { name: "Pending", value: 0 },
+            { name: "On It", value: 1 },
+            { name: "Complications", value: 2 },
+            { name: "Done", value: 3 },
+        ],
     },
     getters: {
         isMod(state) {
             return state.user.data.role < 2;
+        },
+        commonTaskStatuses(state) {
+            return state.commonTaskStatuses;
         },
     },
     actions: {
@@ -86,6 +95,15 @@ const store = createStore({
             console.log(room);
             let response = axiosClient.post(`/room`, room).then((res) => {
                 commit("setAccesses", res.data.data);
+                return res.data;
+            });
+            return response;
+        },
+        refreshUser({ commit, state }) {
+            const response = axiosClient.get(`user`).then((res) => {
+                const data = { token: state.user.token, user: res.data.data };
+                console.log(data);
+                commit("setUser", data);
                 return res.data;
             });
             return response;
