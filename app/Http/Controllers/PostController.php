@@ -59,7 +59,6 @@ class PostController extends Controller
 
 
         $data = $request->validated();
-        // dd($request->user_handling && $room->users()->where('user_id', $request->user_handling)->exists());
 
         if ($request->hasFile('image')) {
             if ($post->image) {
@@ -69,6 +68,7 @@ class PostController extends Controller
             }
             $image = $post->addImage($request->file('image'));
         }
+
         $post->update($data);
         return new PostResource($post);
     }

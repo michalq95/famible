@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPostNotification extends Notification implements ShouldQueue
+class ChangedPostNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,16 +27,6 @@ class NewPostNotification extends Notification implements ShouldQueue
         return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    // public function toMail(object $notifiable): MailMessage
-    // {
-    //     return (new MailMessage)
-    //         ->line('The introduction to the notification.')
-    //         ->action('Notification Action', url('/'))
-    //         ->line('Thank you for using our application!');
-    // }
 
     /**
      * Get the array representation of the notification.
@@ -46,7 +36,7 @@ class NewPostNotification extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable): array
     {
         return [
-            'type' => 'new_post',
+            'type' => 'changed_post',
             'room_id' => $this->post->room_id,
             'title' => $this->post->title,
             'id' => $this->post->id,

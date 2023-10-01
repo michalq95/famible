@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PostStatusEnum;
+use App\Notifications\ChangedPostNotification;
 use App\Notifications\NewPostNotification;
 use App\Traits\HasImages;
 use Carbon\Carbon;
@@ -34,6 +35,13 @@ class Post extends Model
         }));
 
         static::updated(function (Post $post) {
+            dump($post->author == $post->handler);
+            $post->author->notify(new ChangedPostNotification($post));
+
+            if ($post->handler && $post->author != $post->handler) {
+                $post->handler->notify(new ChangedPostNotification($post));
+            }
+
             if ($post->status == PostStatusEnum::Done)
                 $post->expire_date = Carbon::now()->addMonth();
         });

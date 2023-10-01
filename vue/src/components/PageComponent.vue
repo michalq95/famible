@@ -4,7 +4,13 @@
             class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-400"
         >
             {{ title }}
+            <!-- <img
+                :src="image"
+                alt=""
+                class="rounded-sm text-white text-lg font-semibold"
+            /> -->
         </h1>
+
         <slot name="header"></slot>
     </div>
     <main>
@@ -20,6 +26,7 @@ const store = useStore();
 
 const props = defineProps({
     title: String,
+    image: String,
 });
 </script>
 

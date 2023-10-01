@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\OtherUserResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
+
+
     public function index(Request $request)
     {
         $keyword = $request->query('keyword');
@@ -18,6 +22,20 @@ class UsersController extends Controller
         }
         $query = User::with(['image'])->where('name', 'LIKE', "%$keyword%")->orderBy('created_at', 'desc')->simplepaginate(2);;
         return OtherUserResource::collection($query);
+    }
+
+    public function setImage(Request $request)
+    {
+
+        if ($request->hasFile('image')) {
+            if (Auth::user()->image) {
+                Storage::disk('public')->delete(Auth::user()->image->url);
+
+                Auth::user()->image->delete();
+            }
+            $image = Auth::user()->addImage($request->file('image'));
+        }
+        return new UserResource(Auth::user());
     }
 
     public function markAsRead(Request $request)

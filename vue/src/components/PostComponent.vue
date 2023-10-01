@@ -1,8 +1,8 @@
 <template>
-    <div class="dark:bg-sky-900 py-3 px-5 shadow-md">
+    <div class="dark:bg-sky-900 bg-sky-100 py-3 px-5 shadow-md">
         <div
             @click="showAll = !showAll"
-            class="flex justify-between items-center dark:bg-sky-800 dark:hover:bg-sky-700 h-[80px] p-2"
+            class="flex justify-between items-center bg-sky-200 hover:bg-sky-300 dark:bg-sky-800 dark:hover:bg-sky-700 h-[80px] p-2"
         >
             <label
                 @click.stop

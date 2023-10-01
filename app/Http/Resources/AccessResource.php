@@ -15,9 +15,11 @@ class AccessResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'room' =>  $this->room,
+            'room_image' => $this->room->image ? URL::to($this->room->image->url) : null,
             'status' => $this->status,
             'role' => $this->role
 

@@ -13,10 +13,10 @@ class Access extends Pivot
     use HasFactory;
 
     protected $table = "accesses";
-    protected $fillable = ['role','room_id','user_id','status'];
+    protected $fillable = ['role', 'room_id', 'user_id', 'status'];
     protected $casts = [
         'role' => UserStatusEnum::class,
-        'status'=>AccessStatusEnum::class
+        'status' => AccessStatusEnum::class
     ];
     public function user()
     {
@@ -25,6 +25,6 @@ class Access extends Pivot
 
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsTo(Room::class)->with("image");
     }
 }

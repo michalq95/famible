@@ -18,6 +18,7 @@ class OtherUserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'image' => $this->image ? URL::to($this->image->url) : null,
         ];
     }
 }

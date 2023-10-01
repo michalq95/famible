@@ -52,26 +52,10 @@
             </div>
         </div>
         <div class="relative">
-            <div
-                v-for="noti in user.notifications"
-                :key="noti.id"
-                class="flex justify-between items-center py-1 px-5 shadow-md bg-green-300 hover:bg-green-200 dark:bg-green-950 dark:hover:bg-green-800 h-[80px]"
-            >
-                <span
-                    >New post in room
-                    {{
-                        acceptedAccesses.find(
-                            (acc) => acc.room.id === noti.data.room_id
-                        ).room.name
-                    }}:</span
-                >
-                <span class="font-bold">{{ noti.data.title }}</span>
-                <button
-                    class="p-2 items-center bg-green-300 dark:bg-green-700"
-                    @click="markAsRead(noti.id)"
-                >
-                    Mark as read
-                </button>
+            <div v-for="noti in user.notifications" :key="noti.id">
+                <NotificationComponent
+                    :notification="noti"
+                ></NotificationComponent>
             </div>
             <button
                 class="p-2 left-0 items-center absolute bg-green-300 dark:bg-green-700"
@@ -87,13 +71,13 @@
 import { ref, computed, watchEffect, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
+import NotificationComponent from "../components/NotificationComponent.vue";
 import { getPendingAccessess, readOne, readAll } from "../service";
 import axiosClient from "../axios";
 
 const store = useStore();
 
 const user = computed(() => store.state.user.data);
-const acceptedAccesses = computed(() => store.state.user.data.accesses);
 const pendingAccessess = ref({ data: [] });
 
 onMounted(() => {
@@ -125,11 +109,6 @@ function refreshUser() {
     store.dispatch("refreshUser");
 }
 
-function markAsRead(id) {
-    readOne(id).then((data) => {
-        store.dispatch("refreshUser");
-    });
-}
 function markAllAsRead() {
     readAll().then((data) => {
         store.dispatch("refreshUser");

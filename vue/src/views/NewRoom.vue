@@ -62,16 +62,6 @@
             ]"
             class="text-black"
         ></v-text-field>
-        <!-- <select
-            class="p-2 mx-2 w-36 text-black rounded-md bg-slate-200 border-neutral-700 hover:bg-gray-200"
-            name="status"
-            v-model="model.status"
-        >
-            <option value="0">Pending</option>
-            <option value="1">On It</option>
-            <option value="2">Complications</option>
-            <option value="3">Done</option>
-        </select> -->
 
         <button
             type="submit"

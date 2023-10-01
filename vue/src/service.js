@@ -34,4 +34,9 @@ export async function readAll() {
     return res.data;
 }
 
+export async function sendImage(image) {
+    const res = await axiosClient.post(`user/setimage`, image);
+    return res.data;
+}
+
 export function savePost(post) {}

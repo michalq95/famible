@@ -7,6 +7,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound.vue";
 import NewRoom from "../views/NewRoom.vue";
+import Settings from "../views/Settings.vue";
 import store from "../store";
 
 const routes = [
@@ -15,9 +16,7 @@ const routes = [
         name: "Auth",
         redirect: "/login",
         component: AuthLayout,
-        meta: {
-            isGuest: true,
-        },
+        meta: { isGuest: true },
         children: [
             { path: "/login", name: "Login", component: Login },
             { path: "/register", name: "Register", component: Register },
@@ -41,9 +40,16 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/settings",
+        name: "Settings",
+        component: Settings,
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/rooms/:id",
         name: "RoomView",
         component: Room,
+        meta: { requiresAuth: true },
     },
     { path: "/404", name: "NotFound", component: NotFound },
     { path: "/:pathMatch(.*)*", redirect: { name: "NotFound" } },

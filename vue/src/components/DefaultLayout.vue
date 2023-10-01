@@ -9,26 +9,14 @@
                 <router-link :to="{ name: 'Home' }"> Home </router-link>
             </div>
             <div class="flex grow"></div>
-
             <div v-if="token" class="relative inline-block text-left items-end">
-                <router-link
-                    class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    :to="{ name: 'Dashboard' }"
-                >
-                    Dashboard
-                </router-link>
-                <router-link
-                    class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    :to="{ name: 'CreateRoom' }"
-                >
-                    Create Room
-                </router-link>
                 <div
                     class="inline cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     @click="roomMenuIsOpen = !roomMenuIsOpen"
                 >
-                    Dropdown
+                    Rooms
                 </div>
+
                 <div
                     v-show="roomMenuIsOpen"
                     class="absolute right-2 z-10 mt-2 w-48 bg-white border rounded-lg shadow-lg"
@@ -53,10 +41,11 @@
                             }}
                         </button>
                         {{ r.room.name }}
+
                         <img
-                            :src="r.room.image"
-                            alt=""
-                            class="rounded-full text-white text-lg font-semibold"
+                            v-if="r.room_image"
+                            :src="r.room_image"
+                            class="inline flex-nowrap rounded-sm text-white text-lg font-semibold w-8 h-8"
                         />
                     </div>
                 </div>
@@ -109,9 +98,31 @@
 
                     <div v-else>
                         <span class="py-2 px-3 ml-2 rounded">
+                            <img
+                                :src="user.image"
+                                alt=""
+                                class="inline w-8 object-cover"
+                            />
                             Welcome {{ user.name }}!
                         </span>
-
+                        <router-link
+                            class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            :to="{ name: 'Dashboard' }"
+                        >
+                            Dashboard
+                        </router-link>
+                        <router-link
+                            class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            :to="{ name: 'Settings' }"
+                        >
+                            Settings
+                        </router-link>
+                        <router-link
+                            class="inline bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            :to="{ name: 'CreateRoom' }"
+                        >
+                            Create Room
+                        </router-link>
                         <span
                             @click="logout"
                             class="py-2 px-3 ml-2 hover:bg-indigo-400 bg-indigo-500 rounded shadow-lg border text-white"
@@ -144,19 +155,43 @@
                         Log In
                     </router-link>
 
-                    <a
+                    <router-link
                         :to="{ name: 'Register' }"
                         class="block font-semibold text-gray-800 py-2 px-3 hover:bg-gray-200 rounded cursor-pointer"
                     >
                         Register
-                    </a>
+                    </router-link>
                 </div>
                 <div v-else>
                     <div
                         class="block font-semibold text-gray-800 py-2 px-3 rounded"
                     >
+                        <img
+                            :src="user.image"
+                            alt=""
+                            class="inline w-8 object-cover"
+                        />
+
                         Welcome {{ user.name }}!
                     </div>
+                    <router-link
+                        class="block font-semibold text-gray-800 py-2 px-3 hover:bg-gray-200 rounded cursor-pointer"
+                        :to="{ name: 'Dashboard' }"
+                    >
+                        Dashboard
+                    </router-link>
+                    <router-link
+                        class="block font-semibold text-gray-800 py-2 px-3 hover:bg-gray-200 rounded cursor-pointer"
+                        :to="{ name: 'Settings' }"
+                    >
+                        Settings
+                    </router-link>
+                    <router-link
+                        class="block font-semibold text-gray-800 py-2 px-3 hover:bg-gray-200 rounded cursor-pointer"
+                        :to="{ name: 'CreateRoom' }"
+                    >
+                        Create Room
+                    </router-link>
                     <div
                         @click="logout"
                         class="block font-semibold text-gray-800 py-2 px-3 hover:bg-gray-200 rounded cursor-pointer"

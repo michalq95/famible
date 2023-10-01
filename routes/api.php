@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post("/user/markasread", [UsersController::class, 'markAsRead']);
     Route::post("/user/markallasread", [UsersController::class, 'markAllAsRead']);
+    Route::post("/user/setimage", [UsersController::class, 'setImage']);
 });
 
 

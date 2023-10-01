@@ -38,6 +38,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $with = ['image'];
+
 
     public function accesses()
     {
