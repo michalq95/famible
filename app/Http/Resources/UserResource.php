@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             "accesses" => AccessResource::collection($this->accepted_accesses),
-            "notifications" => $this->unreadNotifications,
+            // "notifications" => $this->unreadNotifications()->paginate(15)->get(),
+            "notifications" => $this->unreadNotifications()->orderBy('created_at', 'desc')->take(10)->get(),
             'image' => $this->image ? URL::to($this->image->url) : null,
 
 

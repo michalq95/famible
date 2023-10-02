@@ -6,7 +6,9 @@
         alt=""
         class="inline-block md:block rounded-sm text-white"
     />
-    <div class="md:w-1/5 inline-block md:float-right md:sticky md:top-2">
+    <div
+        class="md:w-1/5 inline-block md:float-right md:sticky md:top-2 text-center align-middle justify-center mx-auto"
+    >
         <button
             class="p-2 my-2 flex items-center justify-center bg-blue-500 rounded-2xl"
             @click="showNewPost = !showNewPost"

@@ -40,10 +40,10 @@
             />
 
             <div class="flex flex-col flex-grow p-2">
-                <h5 v-if="!showAll" class="truncate">{{ post.description }}</h5>
                 <h3 class="font-bold text-lg">
                     {{ post.title }}
                 </h3>
+                <h5 v-if="!showAll" class="truncate">{{ post.description }}</h5>
             </div>
             <div class="flex flex-col justify-between p-2">
                 <div v-if="userHandling">

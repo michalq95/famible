@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Enums\AccessStatusEnum;
 use App\Enums\PostStatusEnum;
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class RoomAccessMiddleware
@@ -14,13 +15,13 @@ class RoomAccessMiddleware
 
         $room = $request->route('room');
         if (!$room) {
-            abort(404);
+            return new JsonResponse("Room not found", 404);
         }
 
         $access = $room->accesses()->where('user_id', Auth::id())->where("status", AccessStatusEnum::Accepted)->first();
 
         if (!$access) {
-            abort(403, 'Unauthorized');
+            return new JsonResponse("Unauthorized", 403);
         }
 
         return $next($request);
