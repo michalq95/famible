@@ -202,7 +202,7 @@
             </div>
         </Transition>
 
-        <div v-if="$store.state.error">404 not found</div>
+        <div v-if="$store.state.error404">404 not found</div>
         <router-view :key="$route.fullPath" v-else></router-view>
     </div>
 </template>

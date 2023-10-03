@@ -35,7 +35,11 @@
         ></v-textarea>
         <div>
             <div class="mt1 flex items-center">
-                <img v-if="image" :src="image" class="w-6 object-scale-down" />
+                <img
+                    v-if="newPostModel.image"
+                    :src="newPostModel.image"
+                    class="w-6 object-scale-down"
+                />
                 <span
                     v-else
                     class="flex items-center justify-center object-cover rounded-full overflow-hidden bg-gray-100"

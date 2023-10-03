@@ -35,7 +35,6 @@ class Post extends Model
         }));
 
         static::updated(function (Post $post) {
-            dump($post->author == $post->handler);
             $post->author->notify(new ChangedPostNotification($post));
 
             if ($post->handler && $post->author != $post->handler) {

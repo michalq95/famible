@@ -101,11 +101,16 @@ function saveRoom() {
     for (const field in model.value) {
         formData.append(field, model.value[field]);
     }
-    store.dispatch("saveRoom", formData).then((res) => {
-        // props.offer.application = res.data;
-        router.push({
-            name: "Dashboard",
+    store
+        .dispatch("saveRoom", formData)
+        .then((res) => {
+            // props.offer.application = res.data;
+            router.push({
+                name: "Dashboard",
+            });
+        })
+        .catch((err) => {
+            store.commit("setError", err.response.data.message);
         });
-    });
 }
 </script>

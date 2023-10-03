@@ -14,18 +14,6 @@
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form class="space-y-6" @submit="login">
-            <div
-                v-if="errorMsg"
-                class="py-3 px-4 bg-red-400 text-white rounded flex items-center justify-between"
-            >
-                {{ errorMsg }}
-                <span
-                    class="cursor-pointer text-right rounded-full"
-                    @click="errorMsg = ''"
-                    >X</span
-                >
-            </div>
-
             <div>
                 <label
                     for="email"
@@ -91,6 +79,17 @@
                 </button>
             </div>
         </form>
+        <!-- <div
+            v-if="errorMsg"
+            class="py-3 px-4 bg-red-400 text-white rounded flex items-center justify-between top-1/3 fixed left-0 mx-auto w-72"
+        >
+            {{ errorMsg }}
+            <span
+                class="cursor-pointer text-right rounded-full"
+                @click="errorMsg = ''"
+                >X</span
+            >
+        </div> -->
 
         <p class="mt-10 text-center text-sm text-gray-500">
             <router-link
@@ -117,7 +116,6 @@ let errorMsg = ref("");
 
 function login(ev) {
     ev.preventDefault();
-    console.log("aaa");
     store
         .dispatch("login", user)
         .then(() => {
@@ -126,7 +124,7 @@ function login(ev) {
             });
         })
         .catch((err) => {
-            errorMsg.value = err.response.data.error;
+            store.commit("setError", err.response.data.message);
         });
 }
 </script>

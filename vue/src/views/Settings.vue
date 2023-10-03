@@ -49,8 +49,12 @@ function onImageChoose(ev) {
 function uploadImage() {
     const formData = new FormData();
     formData.append("image", image.value);
-    const res = sendImage(formData).then(() => {
-        store.dispatch("refreshUser");
-    });
+    const res = sendImage(formData)
+        .then(() => {
+            store.dispatch("refreshUser");
+        })
+        .catch((err) => {
+            store.commit("setError", err.response.data.message);
+        });
 }
 </script>

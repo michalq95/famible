@@ -61,7 +61,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.name != "NotFound") store.commit("setError", false);
+    if (to.name != "NotFound") store.commit("set404Error", false);
     if (to.meta.requiresAuth && !store.state.user.token) {
         next({ name: "Login" });
     } else if (store.state.user.token && to.meta.isGuest) {

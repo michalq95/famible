@@ -60,14 +60,18 @@ function confirm() {
         role: role.value,
         status: status.value,
     };
-    modifyAccess(data).then((res) => {
-        if (res.user_id == store.state.user.data.id) {
-            store.dispatch("refreshUser").then(() => {
-                router.push({
-                    name: "Dashboard",
+    modifyAccess(data)
+        .then((res) => {
+            if (res.user_id == store.state.user.data.id) {
+                store.dispatch("refreshUser").then(() => {
+                    router.push({
+                        name: "Dashboard",
+                    });
                 });
-            });
-        }
-    });
+            }
+        })
+        .catch((err) => {
+            store.commit("setError", err.response.data.message);
+        });
 }
 </script>

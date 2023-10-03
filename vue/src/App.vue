@@ -6,6 +6,17 @@ import store from "./store";
 <template>
     <!-- <router-view></router-view> -->
     <DefaultLayout></DefaultLayout>
+    <div
+        v-if="$store.state.error"
+        class="py-3 px-4 bg-red-400 text-white rounded flex items-center justify-between top-1/3 fixed left-0 mx-auto w-72"
+    >
+        {{ $store.state.error }}
+        <span
+            class="cursor-pointer text-right rounded-full"
+            @click="$store.commit('setError', '')"
+            >X</span
+        >
+    </div>
 </template>
 
 <style scoped>

@@ -72,7 +72,7 @@ import { ref, computed, watchEffect, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
 import NotificationComponent from "../components/NotificationComponent.vue";
-import { getPendingAccessess, readOne, readAll } from "../service";
+import { getPendingAccessess, readAll } from "../service";
 import axiosClient from "../axios";
 
 const store = useStore();
@@ -89,11 +89,9 @@ onMounted(() => {
 });
 
 function updateRoom(acc, status) {
-    console.log(user.value);
     axiosClient
         .put(`/access/${acc.id}`, { user_id: user.value.id, status })
         .then((res) => {
-            console.log(res);
             const updatedAccess = res.data;
             const index = pendingAccessess.value.data.findIndex(
                 (access) => access.id === updatedAccess.id
@@ -110,9 +108,13 @@ function refreshUser() {
 }
 
 function markAllAsRead() {
-    readAll().then((data) => {
-        store.dispatch("refreshUser");
-    });
+    readAll()
+        .then((data) => {
+            store.dispatch("refreshUser");
+        })
+        .catch((err) => {
+            store.commit("setError", err.response.data.message);
+        });
 }
 </script>
 

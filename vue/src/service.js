@@ -40,3 +40,7 @@ export async function sendImage(image) {
 }
 
 export function savePost(post) {}
+
+// .catch((err) => {
+//     store.commit("setError", err.response.data.message);
+// });

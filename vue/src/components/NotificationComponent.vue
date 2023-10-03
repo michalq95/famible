@@ -29,6 +29,7 @@
 <script setup>
 import store from "../store";
 import { computed, ref } from "vue";
+import { readOne } from "../service";
 
 const acceptedAccesses = computed(() => store.state.user.data.accesses);
 
@@ -49,8 +50,12 @@ const message = computed(() => {
 });
 
 function markAsRead(id) {
-    readOne(id).then((data) => {
-        store.dispatch("refreshUser");
-    });
+    readOne(id)
+        .then((data) => {
+            store.dispatch("refreshUser");
+        })
+        .catch((err) => {
+            store.commit("setError", err.response.data.message);
+        });
 }
 </script>

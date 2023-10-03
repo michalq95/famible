@@ -14,6 +14,7 @@ const store = createStore({
             { name: "Complications", value: 2 },
             { name: "Done", value: 3 },
         ],
+        error: "",
     },
     getters: {
         isMod(state) {
@@ -43,6 +44,9 @@ const store = createStore({
                 return data;
             });
         },
+        errorMessage({ commit }, message) {
+            commit("setError", message);
+        },
         getRoom({ commit }, id) {
             commit("setCurrentRoomLoading", true);
             return axiosClient
@@ -58,7 +62,6 @@ const store = createStore({
                 });
         },
         savePost({ commit, state }, { formData, id }) {
-            console.log(formData);
             let response;
             if (id) {
                 response = axiosClient
@@ -92,7 +95,6 @@ const store = createStore({
             return response;
         },
         saveRoom({ commit, state }, room) {
-            console.log(room);
             let response = axiosClient.post(`/room`, room).then((res) => {
                 commit("setAccesses", res.data.data);
                 return res.data;
@@ -102,7 +104,6 @@ const store = createStore({
         refreshUser({ commit, state }) {
             const response = axiosClient.get(`user`).then((res) => {
                 const data = { token: state.user.token, user: res.data.data };
-                console.log(data);
                 commit("setUser", data);
                 return res.data;
             });
@@ -112,6 +113,9 @@ const store = createStore({
     mutations: {
         setError: (state, value) => {
             state.error = value;
+        },
+        set404Error: (state, value) => {
+            state.error404 = value;
         },
         logout: (state) => {
             state.user.data = {};
